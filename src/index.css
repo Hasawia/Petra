@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Petra Oil Brand Colors */
+    --petroleum-green: 174 73% 18%;        /* #0E4E47 - Main brand */
+    --royal-gold: 43 55% 50%;              /* #C19A3A - Premium accent */
+    --metallic-gray: 200 5% 44%;           /* #6B7376 - Neutral technical */
+    --ash-gray: 180 8% 97%;                /* #F6F7F7 - Soft neutral */
+    --sand-beige: 40 30% 80%;              /* #D8C7A3 - Warm support */
+    
+    /* Semantic tokens mapped to Petra colors */
+    --background: 0 0% 100%;
+    --foreground: 174 73% 18%;             /* Petroleum green for text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 174 73% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 174 73% 18%;
+
+    --primary: 174 73% 18%;                /* Petroleum green */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 5% 44%;               /* Metallic gray */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 43 55% 50%;                  /* Royal gold */
+    --accent-foreground: 174 73% 18%;
+
+    --muted: 180 8% 97%;                   /* Ash gray */
+    --muted-foreground: 200 5% 44%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 8% 90%;
+    --input: 180 8% 90%;
+    --ring: 43 55% 50%;                    /* Gold ring */
+
+    --radius: 0.5rem;
+
+    /* Custom gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(174 73% 18% / 0.95), hsl(174 73% 12% / 0.98));
+    --gradient-gold: linear-gradient(135deg, hsl(43 55% 50%), hsl(43 65% 60%));
+    
+    /* Shadows */
+    --shadow-premium: 0 20px 50px -10px hsl(174 73% 18% / 0.15);
+    --shadow-gold: 0 10px 30px -5px hsl(43 55% 50% / 0.3);
+  }
+
+  .dark {
+    --background: 174 73% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 174 73% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 174 73% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 43 55% 50%;                 /* Gold becomes primary in dark */
+    --primary-foreground: 174 73% 18%;
+
+    --secondary: 200 5% 30%;
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: 43 55% 50%;
+    --accent-foreground: 174 73% 18%;
+
+    --muted: 174 50% 15%;
+    --muted-foreground: 180 8% 70%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 174 50% 20%;
+    --input: 174 50% 20%;
+    --ring: 43 55% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* RTL support */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  [dir="ltr"] {
+    direction: ltr;
+  }
+
+  /* Arabic font optimization */
+  [dir="rtl"] body {
+    font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}

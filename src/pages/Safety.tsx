@@ -9,6 +9,7 @@ import {
   Flame, Camera, Settings, ClipboardCheck, BookOpen,
   HardHat, Eye, MapPin, Bell, Gauge, Lock
 } from "lucide-react";
+import { useLangLink } from "@/hooks/useLangLink";
 
 // Image imports
 import safetyHero from "@/assets/safety-hero.jpg";
@@ -543,53 +544,58 @@ const MonitoringSection = ({ t, language }: { t: (key: string) => string; langua
 };
 
 // CTA Section
-const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => (
-  <section className="py-24 bg-gradient-to-b from-white to-ash-gray/30">
-    <div className="container mx-auto px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="max-w-3xl mx-auto text-center"
-      >
+export const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => {
+  const { dir } = useLanguage();
+  const langLink = useLangLink();
+
+  return (
+    <section className="py-24 bg-gradient-to-b from-white to-ash-gray/30">
+      <div className="container mx-auto px-4">
         <motion.div
-          initial={{ scale: 0 }}
-          whileInView={{ scale: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="w-20 h-20 mx-auto bg-petroleum-green/10 rounded-full flex items-center justify-center mb-6"
+          className="max-w-3xl mx-auto text-center"
         >
-          <Shield className="w-10 h-10 text-petroleum-green" />
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            className="w-20 h-20 mx-auto bg-petroleum-green/10 rounded-full flex items-center justify-center mb-6"
+          >
+            <Shield className="w-10 h-10 text-petroleum-green" />
+          </motion.div>
+          
+          <h2 className="text-3xl md:text-4xl font-bold text-petroleum-green mb-6">
+            {t('safety.page.cta.title')}
+          </h2>
+          <p className="text-muted-foreground text-lg mb-8">
+            {t('safety.page.cta.text')}
+          </p>
+          
+          <motion.a
+            href={langLink("/contact")} // استخدم langLink للزر
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block px-8 py-4 bg-petroleum-green text-white font-semibold rounded-xl hover:bg-petroleum-green/90 transition-colors shadow-lg shadow-petroleum-green/30"
+          >
+            {t('safety.page.cta.button')}
+          </motion.a>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="mt-8 text-royal-gold font-medium"
+          >
+            {t('safety.page.cta.signature')}
+          </motion.p>
         </motion.div>
-        
-        <h2 className="text-3xl md:text-4xl font-bold text-petroleum-green mb-6">
-          {t('safety.page.cta.title')}
-        </h2>
-        <p className="text-muted-foreground text-lg mb-8">
-          {t('safety.page.cta.text')}
-        </p>
-        
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-block px-8 py-4 bg-petroleum-green text-white font-semibold rounded-xl hover:bg-petroleum-green/90 transition-colors shadow-lg shadow-petroleum-green/30"
-        >
-          {t('safety.page.cta.button')}
-        </motion.a>
-        
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 text-royal-gold font-medium"
-        >
-          {t('safety.page.cta.signature')}
-        </motion.p>
-      </motion.div>
-    </div>
-  </section>
-);
+      </div>
+    </section>
+  );
+};
 
 const Safety = () => {
   const { t, language, dir } = useLanguage();

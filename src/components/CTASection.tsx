@@ -2,15 +2,22 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Handshake } from "lucide-react";
+import { useLangLink } from "@/hooks/useLangLink";
 
 export const CTASection = () => {
   const { t, language } = useLanguage();
+  const langLink = useLangLink();
+
+  const handleCTA = () => {
+    // هنا نضع رابط الصفحة المراد فتحها، مثال:
+    window.location.href = langLink("/contact");
+  };
 
   return (
     <section className="py-24 bg-gradient-to-br from-petroleum-green via-petroleum-green to-petroleum-green/90 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgMEwzMCA2ME0wIDMwTDYwIDMwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIi8+PC9zdmc+')]" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgMEwzMCA2ME0wIDMwTDYwIDMwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIi8+PC9zdmc+')]"/>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -42,16 +49,10 @@ export const CTASection = () => {
             <Button
               size="lg"
               className="bg-royal-gold hover:bg-royal-gold/90 text-petroleum-green font-semibold px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all"
+              onClick={handleCTA} // ربط الزر بالصفحة
             >
               {t('cta.button1')}
               <ArrowRight className={`w-5 h-5 ${language === 'ar' ? 'mr-2 rotate-180' : 'ml-2'}`} />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-petroleum-green font-semibold px-8 py-6 text-lg transition-all"
-            >
-              {t('cta.button2')}
             </Button>
           </div>
         </motion.div>

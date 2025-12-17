@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Warehouse, Truck, Fuel, Wrench } from "lucide-react";
+
 import storageImg from "@/assets/service-storage.jpg";
 import logisticsImg from "@/assets/service-logistics.jpg";
 import stationImg from "@/assets/service-station.jpg";
@@ -43,8 +43,9 @@ export const DetailedServicesSection = () => {
   const { t, dir } = useLanguage();
 
   return (
-    <section className="py-24 bg-background" id="services">
+    <section className="py-24 bg-background" id="services" dir={dir}>
       <div className="container mx-auto px-4">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -53,14 +54,15 @@ export const DetailedServicesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-petroleum-green mb-4">
-            {t('services.title')}
+            {t("services.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('services.subtitle')}
+            {t("services.subtitle")}
           </p>
           <div className="w-24 h-1 bg-royal-gold mx-auto mt-6" />
         </motion.div>
 
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => (
             <motion.div
@@ -81,7 +83,7 @@ export const DetailedServicesSection = () => {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-r from-petroleum-green/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-royal-gold flex items-center justify-center">
+                      <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-royal-gold flex items-center justify-center shadow-md">
                         <service.icon className="w-6 h-6 text-petroleum-green" />
                       </div>
                     </div>
@@ -96,12 +98,14 @@ export const DetailedServicesSection = () => {
                           {t(service.descKey)}
                         </p>
                       </div>
-                      <Button
-                        variant="outline"
-                        className="mt-6 border-royal-gold text-royal-gold hover:bg-royal-gold hover:text-white transition-all self-start"
-                      >
-                        {t(service.ctaKey)}
-                      </Button>
+
+                      {/* Decorative CTA (Non-clickable) */}
+                      <div className="mt-6 flex items-center gap-3">
+                        <div className="w-10 h-[2px] bg-royal-gold transition-all duration-300 group-hover:w-16" />
+                        <span className="text-sm text-royal-gold font-medium tracking-wide">
+                          {t(service.ctaKey)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Globe } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AboutPanel } from "@/components/AboutPanel";
+import logo from "@/assets/PETRA-Logo.png";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useLangLink } from "@/hooks/useLangLink";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,18 +14,18 @@ export const Navigation = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAboutPanelOpen, setIsAboutPanelOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
 
+  const { language, setLanguage, t } = useLanguage();
+  const langLink = useLangLink();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  /* ===== Scroll Behaviour ===== */
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-
+      setIsVisible(!(currentScrollY > lastScrollY && currentScrollY > 100));
       setIsScrolled(currentScrollY > 50);
       setLastScrollY(currentScrollY);
     };
@@ -36,6 +33,17 @@ export const Navigation = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  /* ===== Scroll To FAQ ===== */
+  const handleScrollToFAQ = () => {
+    const homePath = langLink("/");
+
+    if (location.pathname === homePath) {
+      document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(homePath, { state: { scrollTo: "faq" } });
+    }
+  };
 
   return (
     <motion.nav
@@ -54,14 +62,20 @@ export const Navigation = () => {
             animate={{ opacity: 1 }}
             className="flex items-center space-x-2"
           >
-            <div
-              className={`text-2xl font-bold transition-colors ${
-                isScrolled ? "text-petroleum-green" : "text-white"
-              }`}
-            >
-              PETRA
-              <span className="text-royal-gold">.</span>
-            </div>
+            <Link to={langLink("/")} className="flex items-center space-x-2">
+              <img
+                src={logo}
+                alt="Petra Logo"
+                className="h-10 w-auto transition-all duration-300"
+              />
+              <div
+                className={`text-2xl font-bold transition-colors ${
+                  isScrolled ? "text-petroleum-green" : "text-white"
+                }`}
+              >
+                PETRA
+              </div>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -70,44 +84,24 @@ export const Navigation = () => {
               language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"
             }`}
           >
-            <a
-              href="/"
+            <Link to={langLink("/")}
               className={`text-sm font-medium transition-colors hover:text-royal-gold ${
                 isScrolled ? "text-petroleum-green" : "text-white"
               }`}
             >
               {t("nav.home")}
-            </a>
+           </Link>
 
-            {/* Services Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className={`flex items-center ${
-                  language === "ar" ? "space-x-reverse" : ""
-                } space-x-1 text-sm font-medium transition-colors hover:text-royal-gold ${
-                  isScrolled ? "text-petroleum-green" : "text-white"
-                }`}
-              >
-                <span>{t("nav.services")}</span>
-                <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 bg-white shadow-lg border-border z-[100]">
-                <DropdownMenuItem className="cursor-pointer hover:bg-muted focus:bg-muted text-foreground">
-                  {t("service.dropdown.storage")}
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer hover:bg-muted focus:bg-muted text-foreground">
-                  {t("service.dropdown.logistics")}
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer hover:bg-muted focus:bg-muted text-foreground">
-                  {t("service.dropdown.station")}
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer hover:bg-muted focus:bg-muted text-foreground">
-                  {t("service.dropdown.consulting")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Services */}
+            <Link to={langLink("/contact")}
+              className={`text-sm font-medium transition-colors hover:text-royal-gold ${
+                isScrolled ? "text-petroleum-green" : "text-white"
+              }`}
+            >
+              {t("nav.contact")}
+            </Link>
 
-            {/* About Button */}
+            {/* About */}
             <button
               onClick={() => setIsAboutPanelOpen(true)}
               className={`text-sm font-medium transition-colors hover:text-royal-gold ${
@@ -117,14 +111,15 @@ export const Navigation = () => {
               {t("nav.about")}
             </button>
 
-            <a
-              href="#faq"
+            {/* FAQ */}
+            <button
+              onClick={handleScrollToFAQ}
               className={`text-sm font-medium transition-colors hover:text-royal-gold ${
                 isScrolled ? "text-petroleum-green" : "text-white"
               }`}
             >
               {t("nav.faq")}
-            </a>
+            </button>
 
             {/* Language Toggle */}
             <Button
@@ -163,41 +158,20 @@ export const Navigation = () => {
             className="md:hidden bg-white border-t border-border"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
-              <a
-                href="/"
+              <Link to={langLink("/")}
                 className="block text-petroleum-green hover:text-royal-gold"
               >
                 {t("nav.home")}
-              </a>
-              <div className="space-y-2">
-                <div className="text-petroleum-green font-medium">
-                  {t("nav.services")}
-                </div>
-                <a
-                  href="#services"
-                  className="block pl-4 text-sm text-muted-foreground hover:text-royal-gold"
-                >
-                  {t("service.dropdown.storage")}
-                </a>
-                <a
-                  href="#services"
-                  className="block pl-4 text-sm text-muted-foreground hover:text-royal-gold"
-                >
-                  {t("service.dropdown.logistics")}
-                </a>
-                <a
-                  href="#services"
-                  className="block pl-4 text-sm text-muted-foreground hover:text-royal-gold"
-                >
-                  {t("service.dropdown.station")}
-                </a>
-                <a
-                  href="#services"
-                  className="block pl-4 text-sm text-muted-foreground hover:text-royal-gold"
-                >
-                  {t("service.dropdown.consulting")}
-                </a>
-              </div>
+             </Link>
+
+               <Link to={langLink("/contact")}
+              className={`text-sm font-medium transition-colors hover:text-royal-gold ${
+                isScrolled ? "text-petroleum-green" : "text-white"
+              }`}
+            >
+              {t("nav.contact")}
+              </Link>
+
               <button
                 onClick={() => {
                   setIsAboutPanelOpen(true);
@@ -207,16 +181,16 @@ export const Navigation = () => {
               >
                 {t("nav.about")}
               </button>
-              <a
-                href="#faq"
-                className="block text-petroleum-green hover:text-royal-gold"
+
+              <button
+                onClick={handleScrollToFAQ}
+                className="block text-petroleum-green hover:text-royal-gold w-full text-left"
               >
                 {t("nav.faq")}
-              </a>
+              </button>
+
               <Button
-                onClick={() =>
-                  setLanguage(language === "en" ? "ar" : "en")
-                }
+                onClick={() => setLanguage(language === "en" ? "ar" : "en")}
                 size="sm"
                 className="w-full bg-petroleum-green hover:bg-petroleum-green/90"
               >
@@ -236,7 +210,7 @@ export const Navigation = () => {
       <AboutPanel
         isOpen={isAboutPanelOpen}
         onClose={() => setIsAboutPanelOpen(false)}
-        placement={language === "ar" ? "right" : "left"} // اتجاه البانل ديناميكي
+        placement={language === "ar" ? "right" : "left"}
       />
     </motion.nav>
   );

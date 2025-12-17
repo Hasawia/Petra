@@ -16,6 +16,7 @@ import fuelStationSolar from "@/assets/fuel-station-solar.jpg";
 import engineerInspection from "@/assets/engineer-inspection.jpg";
 import gpsTracking from "@/assets/gps-tracking.jpg";
 import tankerTrucks from "@/assets/tanker-trucks.jpg";
+import { useLangLink } from "@/hooks/useLangLink";
 
 // Lazy loading image component
 const LazyImage = ({ 
@@ -31,6 +32,7 @@ const LazyImage = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const ref = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
@@ -282,14 +284,6 @@ const MainServicesSection = ({ t, language }: { t: (key: string) => string; lang
                     ))}
                   </ul>
 
-                  <motion.a
-                    href="#contact"
-                    whileHover={{ x: language === 'ar' ? -5 : 5 }}
-                    className={`inline-flex items-center gap-2 text-petroleum-green font-semibold hover:text-royal-gold transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
-                  >
-                    {t('services.page.learnMore')}
-                    <ArrowRight className={`w-4 h-4 ${language === 'ar' ? 'rotate-180' : ''}`} />
-                  </motion.a>
                 </div>
               </motion.div>
             );
@@ -441,34 +435,38 @@ const WhyChooseUsSection = ({ t, language }: { t: (key: string) => string; langu
 };
 
 // CTA Section
-const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => (
-  <section className="py-24 bg-gradient-to-r from-petroleum-green to-petroleum-green/90">
-    <div className="container mx-auto px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="max-w-3xl mx-auto text-center"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-          {t('services.page.cta.title')}
-        </h2>
-        <p className="text-white/80 text-lg mb-8">
-          {t('services.page.cta.text')}
-        </p>
-        
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-block px-8 py-4 bg-royal-gold text-petroleum-green font-semibold rounded-xl hover:bg-royal-gold/90 transition-colors shadow-lg"
+const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => {
+  const langLink = useLangLink(); // استخدم hook هنا
+
+  return (
+    <section className="py-24 bg-gradient-to-r from-petroleum-green to-petroleum-green/90">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto text-center"
         >
-          {t('services.page.cta.button')}
-        </motion.a>
-      </motion.div>
-    </div>
-  </section>
-);
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            {t('services.page.cta.title')}
+          </h2>
+          <p className="text-white/80 text-lg mb-8">
+            {t('services.page.cta.text')}
+          </p>
+          
+          <motion.a
+            href={langLink("/contact")} // استخدم langLink للصفحات
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block px-8 py-4 bg-royal-gold text-petroleum-green font-semibold rounded-xl hover:bg-royal-gold/90 transition-colors shadow-lg"
+          >
+            {t('services.page.cta.button')}
+          </motion.a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 const Services = () => {
   const { t, language, dir } = useLanguage();

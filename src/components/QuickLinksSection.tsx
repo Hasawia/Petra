@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useLangLink } from "@/hooks/useLangLink";
 import { HelpCircle, Phone, Shield } from "lucide-react";
 
 const quickLinks = [
@@ -17,7 +18,7 @@ const quickLinks = [
     descKey: "quicklinks.contact.desc",
     ctaKey: "quicklinks.contact.cta",
     icon: Phone,
-    href: "#contact"
+    href: "/contact"
   },
   {
     titleKey: "quicklinks.safety.title",
@@ -30,6 +31,7 @@ const quickLinks = [
 
 export const QuickLinksSection = () => {
   const { t } = useLanguage();
+  const langLink = useLangLink();
 
   return (
     <section className="py-16 bg-muted">
@@ -60,7 +62,15 @@ export const QuickLinksSection = () => {
                     className="border-royal-gold text-royal-gold hover:bg-royal-gold hover:text-white"
                     asChild
                   >
-                    <a href={link.href}>{t(link.ctaKey)}</a>
+                    <a
+                      href={
+                        link.href.startsWith("#")
+                          ? link.href
+                          : langLink(link.href)
+                      }
+                    >
+                      {t(link.ctaKey)}
+                    </a>
                   </Button>
                 </CardContent>
               </Card>

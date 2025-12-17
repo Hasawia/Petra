@@ -12,7 +12,8 @@ import {
   Leaf,
   Activity,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useLangLink } from "@/hooks/useLangLink";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 /* =======================
@@ -44,6 +45,7 @@ export const AboutPanel = ({ isOpen, onClose }: AboutPanelProps) => {
   const [level, setLevel] = useState<PanelLevel>("main");
   const isRTL = language === "ar";
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
+const langLink = useLangLink();
 
   /* =======================
      Lock body scroll
@@ -70,24 +72,25 @@ export const AboutPanel = ({ isOpen, onClose }: AboutPanelProps) => {
   };
 
   const mainItems: PanelItem[] = [
-    { key: "panel.about", icon: Building2, next: "about" },
-    { key: "panel.whyPetra", icon: Sparkles, path: "/why-petra" },
-    { key: "panel.governance", icon: Shield, next: "governance" },
-    { key: "panel.sustainability", icon: Leaf, path: "/sustainability" },
-  ];
+  { key: "panel.about", icon: Building2, next: "about" },
+  { key: "panel.whyPetra", icon: Sparkles, path: langLink("/why-petra") },
+  { key: "panel.governance", icon: Shield, next: "governance" },
+  { key: "panel.sustainability", icon: Leaf, path: langLink("/sustainability") },
+];
 
-  const aboutItems: PanelItem[] = [
-    { key: "panel.about", icon: Building2, path: "/about" },
-    { key: "panel.services", icon: Sparkles, path: "/services" },
-    { key: "panel.safety", icon: Shield, path: "/safety" },
-    { key: "panel.activities", icon: Activity, path: "/activities" },
-  ];
+const aboutItems: PanelItem[] = [
+  { key: "panel.about", icon: Building2, path: langLink("/about") },
+  { key: "panel.services", icon: Sparkles, path: langLink("/services") },
+  { key: "panel.safety", icon: Shield, path: langLink("/safety") },
+  { key: "panel.activities", icon: Activity, path: langLink("/activities") },
+];
 
-  const governanceItems: PanelItem[] = [
-    { key: "panel.governance", icon: Shield, path: "/governance" },
-    { key: "panel.ethics", icon: Shield, path: "/ethics-governance" },
-    { key: "panel.values", icon: Leaf, path: "/our-values" },
-  ];
+const governanceItems: PanelItem[] = [
+  { key: "panel.governance", icon: Shield, path: langLink("/governance") },
+  { key: "panel.ethics", icon: Shield, path: langLink("/ethics-governance") },
+  { key: "panel.values", icon: Leaf, path: langLink("/our-values") },
+];
+
 
   const getItems = (): PanelItem[] => {
     switch (level) {

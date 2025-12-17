@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 type Language = "en" | "ar";
 
@@ -9,16 +10,14 @@ interface LanguageContextType {
   dir: "ltr" | "rtl";
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
-);
-
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 const translations = {
   en: {
     "nav.home": "Home",
     "nav.services": "Services",
     "nav.about": "About",
     "nav.faq": "FAQ",
+    "nav.contact": "Contact Us",
     "nav.language": "العربية",
     "hero.slide1.title":
       "Delivering Excellence in Oil Services & Energy Solutions.",
@@ -56,19 +55,19 @@ const translations = {
     "detailed.storage.title": "Petroleum Derivatives Storage",
     "detailed.storage.desc":
       "We provide highly secure and efficient storage solutions for gasoline, diesel, oil, and other petroleum derivatives. Our operations include management and maintenance of storage tanks in accordance with international safety and quality standards. Inventory monitoring systems reduce product loss and improve operational control.",
-    "detailed.storage.cta": "Learn More",
+    "detailed.storage.cta": "Professional storage infrastructure built for safety and sustainability",
     "detailed.logistics.title": "Supply Chain Management",
     "detailed.logistics.desc":
       "We plan and execute integrated logistics solutions for transporting and distributing petroleum derivatives. Designed to optimize distribution networks, reduce operational costs, and ensure timely delivery. We maintain strong relationships with suppliers and clients to secure supply continuity.",
-    "detailed.logistics.cta": "Explore Logistics",
+    "detailed.logistics.cta": "Smart logistics management that enhances distribution flow",
     "detailed.station.title": "Fuel Station Investment & Operations",
     "detailed.station.desc":
       "Feasibility studies for establishing and upgrading fuel stations in strategic locations. Full operation and management services focused on long-term profitability. Support for sustainable initiatives including solar-powered energy solutions.",
-    "detailed.station.cta": "See Opportunities",
+    "detailed.station.cta": "Integrated fuel station management for sustainable growth",
     "detailed.consulting.title": "Technical & Engineering Consultancy",
     "detailed.consulting.desc":
       "Expert consulting solutions for oil & gas infrastructure development. Market analysis and identification of new investment opportunities in the petroleum sector. Training programs that develop qualified teams capable of managing critical petroleum facilities.",
-    "detailed.consulting.cta": "Get Consultation",
+    "detailed.consulting.cta": "Engineering expertise supporting informed investment decisions",
     "service.dropdown.storage": "Petroleum Products Storage",
     "service.dropdown.logistics": "Supply Chain Management",
     "service.dropdown.station": "Fuel Station Investment",
@@ -124,9 +123,7 @@ const translations = {
     "contact.form.submit": "Send Message",
     "contact.form.success": "Message Sent!",
     "contact.form.successDesc": "We will get back to you shortly.",
-    "contact.info.phone": "Phone",
-    "contact.info.email": "Email",
-    "contact.info.address": "Address",
+
     "contact.info.hours": "Working Hours",
     "contact.map.placeholder": "Location Map",
     "cta.title": "Partner with Us to Power the Future",
@@ -228,13 +225,13 @@ const translations = {
     // About Panel
     "panel.title": "Discover Petra",
     "panel.about": "About Us",
-     "panel.activities": "Activities",
-     "panel.safety": "Safety",
-     "panel.services": "Services",
+    "panel.activities": "Activities",
+    "panel.safety": "Safety",
+    "panel.services": "Services",
     "panel.whyPetra": "Why Petra",
     "panel.governance": "Corporate Governance",
-     "panel.ethics":"Ethics and Governance",
-     "panel.values":"Our Values",
+    "panel.ethics": "Ethics and Governance",
+    "panel.values": "Our Values",
     "panel.sustainability": "Sustainability",
     "panel.back": "Back",
     // Why Petra Page
@@ -417,198 +414,230 @@ const translations = {
 
     "services.page.label": "Services",
 
-"services.page.hero.title": "Our Services",
-"services.page.hero.subtitle": "What We Do",
+    "services.page.hero.title": "Our Services",
+    "services.page.hero.subtitle": "What We Do",
 
-"services.page.main.label": "Our Expertise",
-"services.page.main.title": "Integrated Petroleum Solutions",
-"services.page.main.subtitle":
-  "We deliver a comprehensive range of services designed to support petroleum operations from storage to distribution and investment.",
+    "services.page.main.label": "Our Expertise",
+    "services.page.main.title": "Integrated Petroleum Solutions",
+    "services.page.main.subtitle":
+      "We deliver a comprehensive range of services designed to support petroleum operations from storage to distribution and investment.",
 
-"services.page.storage.label": "Petroleum Storage",
-"services.page.storage.title": "Safe & Efficient Storage Solutions",
-"services.page.storage.desc":
-  "We provide advanced petroleum storage solutions that ensure maximum safety and efficiency while complying with international operational standards.",
+    "services.page.storage.label": "Petroleum Storage",
+    "services.page.storage.title": "Safe & Efficient Storage Solutions",
+    "services.page.storage.desc":
+      "We provide advanced petroleum storage solutions that ensure maximum safety and efficiency while complying with international operational standards.",
 
-"services.page.storage.point1":
-  "Storage of gasoline, diesel, lubricants, and various petroleum products",
-"services.page.storage.point2":
-  "Operation and management of storage tanks in accordance with global safety standards",
-"services.page.storage.point3":
-  "Advanced inventory monitoring systems to minimize losses and improve accuracy",
+    "services.page.storage.point1":
+      "Storage of gasoline, diesel, lubricants, and various petroleum products",
+    "services.page.storage.point2":
+      "Operation and management of storage tanks in accordance with global safety standards",
+    "services.page.storage.point3":
+      "Advanced inventory monitoring systems to minimize losses and improve accuracy",
 
-"services.page.learnMore": "Learn More",
+    "services.page.learnMore": "Learn More",
 
-"services.page.supplyChain.label": "Supply Chain Management",
-"services.page.supplyChain.title": "Integrated Logistics Management",
-"services.page.supplyChain.desc":
-  "Comprehensive supply chain services ensuring efficient petroleum distribution through planning, execution, and continuous optimization.",
+    "services.page.supplyChain.label": "Supply Chain Management",
+    "services.page.supplyChain.title": "Integrated Logistics Management",
+    "services.page.supplyChain.desc":
+      "Comprehensive supply chain services ensuring efficient petroleum distribution through planning, execution, and continuous optimization.",
 
-"services.page.supplyChain.point1":
-  "Planning and execution of petroleum logistics operations",
-"services.page.supplyChain.point2":
-  "Optimization of distribution networks to reduce costs and increase efficiency",
-"services.page.supplyChain.point3":
-  "Supplier and customer relationship management to ensure supply continuity",
+    "services.page.supplyChain.point1":
+      "Planning and execution of petroleum logistics operations",
+    "services.page.supplyChain.point2":
+      "Optimization of distribution networks to reduce costs and increase efficiency",
+    "services.page.supplyChain.point3":
+      "Supplier and customer relationship management to ensure supply continuity",
 
-"services.page.fuelStation.label": "Fuel Stations Investment",
-"services.page.fuelStation.title": "Fuel Station Development & Management",
-"services.page.fuelStation.desc":
-  "We support investors and operators in developing and managing fuel stations with a strong focus on profitability and sustainability.",
+    "services.page.fuelStation.label": "Fuel Stations Investment",
+    "services.page.fuelStation.title": "Fuel Station Development & Management",
+    "services.page.fuelStation.desc":
+      "We support investors and operators in developing and managing fuel stations with a strong focus on profitability and sustainability.",
 
-"services.page.fuelStation.point1":
-  "Comprehensive feasibility studies for new and existing fuel stations",
-"services.page.fuelStation.point2":
-  "Operational management based on high efficiency and profitability standards",
-"services.page.fuelStation.point3":
-  "Development of alternative energy solutions such as solar power systems",
+    "services.page.fuelStation.point1":
+      "Comprehensive feasibility studies for new and existing fuel stations",
+    "services.page.fuelStation.point2":
+      "Operational management based on high efficiency and profitability standards",
+    "services.page.fuelStation.point3":
+      "Development of alternative energy solutions such as solar power systems",
 
-"services.page.consulting.label": "Technical & Consulting Services",
-"services.page.consulting.title": "Professional Engineering & Consulting",
-"services.page.consulting.desc":
-  "We provide specialized technical and consulting services to support oil & gas projects and enable informed investment decisions.",
+    "services.page.consulting.label": "Technical & Consulting Services",
+    "services.page.consulting.title": "Professional Engineering & Consulting",
+    "services.page.consulting.desc":
+      "We provide specialized technical and consulting services to support oil & gas projects and enable informed investment decisions.",
 
-"services.page.consulting.point1":
-  "Engineering and technical consulting for oil & gas projects",
-"services.page.consulting.point2":
-  "Market analysis and investment opportunity assessments",
-"services.page.consulting.point3":
-  "Training programs focused on best practices and operational excellence",
+    "services.page.consulting.point1":
+      "Engineering and technical consulting for oil & gas projects",
+    "services.page.consulting.point2":
+      "Market analysis and investment opportunity assessments",
+    "services.page.consulting.point3":
+      "Training programs focused on best practices and operational excellence",
 
-"services.page.additional.label": "Additional Services",
-"services.page.additional.title": "Value-Added Supporting Services",
+    "services.page.additional.label": "Additional Services",
+    "services.page.additional.title": "Value-Added Supporting Services",
 
-"services.page.additional.fleetManagement.title": "Fleet Management Solutions",
-"services.page.additional.fleetManagement.desc":
-  "Advanced fleet management systems to monitor, control, and optimize transportation operations safely and efficiently.",
+    "services.page.additional.fleetManagement.title":
+      "Fleet Management Solutions",
+    "services.page.additional.fleetManagement.desc":
+      "Advanced fleet management systems to monitor, control, and optimize transportation operations safely and efficiently.",
 
-"services.page.additional.roadSupport.title": "On-Road Support Services",
-"services.page.additional.roadSupport.desc":
-  "24/7 technical and operational road support ensuring uninterrupted transportation.",
+    "services.page.additional.roadSupport.title": "On-Road Support Services",
+    "services.page.additional.roadSupport.desc":
+      "24/7 technical and operational road support ensuring uninterrupted transportation.",
 
-"services.page.additional.longDistance.title": "Long-Distance Transportation",
-"services.page.additional.longDistance.desc":
-  "Reliable long-distance petroleum transportation using modern fleets and real-time tracking technologies.",
+    "services.page.additional.longDistance.title":
+      "Long-Distance Transportation",
+    "services.page.additional.longDistance.desc":
+      "Reliable long-distance petroleum transportation using modern fleets and real-time tracking technologies.",
 
-"services.page.whyUs.label": "Why Choose Us",
-"services.page.whyUs.title": "Your Trusted Petroleum Partner",
+    "services.page.whyUs.label": "Why Choose Us",
+    "services.page.whyUs.title": "Your Trusted Petroleum Partner",
 
-"services.page.whyUs.expertise.title": "Industry Expertise",
-"services.page.whyUs.expertise.desc":
-  "Extensive experience in petroleum storage, logistics, and energy investments.",
+    "services.page.whyUs.expertise.title": "Industry Expertise",
+    "services.page.whyUs.expertise.desc":
+      "Extensive experience in petroleum storage, logistics, and energy investments.",
 
-"services.page.whyUs.reliability.title": "Operational Reliability",
-"services.page.whyUs.reliability.desc":
-  "Consistent, safe, and fully compliant operational standards.",
+    "services.page.whyUs.reliability.title": "Operational Reliability",
+    "services.page.whyUs.reliability.desc":
+      "Consistent, safe, and fully compliant operational standards.",
 
-"services.page.whyUs.support.title": "Dedicated Support",
-"services.page.whyUs.support.desc":
-  "Professional support teams assisting you at every stage.",
+    "services.page.whyUs.support.title": "Dedicated Support",
+    "services.page.whyUs.support.desc":
+      "Professional support teams assisting you at every stage.",
 
-"services.page.whyUs.speed.title": "Fast Execution",
-"services.page.whyUs.speed.desc":
-  "Efficient processes designed to deliver results on time.",
+    "services.page.whyUs.speed.title": "Fast Execution",
+    "services.page.whyUs.speed.desc":
+      "Efficient processes designed to deliver results on time.",
 
-"services.page.whyUs.team.title": "Qualified Team",
-"services.page.whyUs.team.desc":
-  "Highly skilled engineers and industry professionals.",
+    "services.page.whyUs.team.title": "Qualified Team",
+    "services.page.whyUs.team.desc":
+      "Highly skilled engineers and industry professionals.",
 
-"services.page.whyUs.innovation.title": "Innovation Driven",
-"services.page.whyUs.innovation.desc":
-  "Adoption of modern technologies and sustainable energy solutions.",
+    "services.page.whyUs.innovation.title": "Innovation Driven",
+    "services.page.whyUs.innovation.desc":
+      "Adoption of modern technologies and sustainable energy solutions.",
 
-"services.page.cta.title": "Ready to Power Your Operations?",
-"services.page.cta.text":
-  "Contact us today to discover how our services can support your business growth and operational excellence.",
-"services.page.cta.button": "Contact Us",
-// Activities Page
-"activities.label": "Activities",
+    "services.page.cta.title": "Ready to Power Your Operations?",
+    "services.page.cta.text":
+      "Contact us today to discover how our services can support your business growth and operational excellence.",
+    "services.page.cta.button": "Contact Us",
+    // Activities Page
+    "activities.label": "Activities",
 
-"activities.hero.title": "Our Activities",
-"activities.hero.subtitle": "Specialization is the Key to Success",
+    "activities.hero.title": "Our Activities",
+    "activities.hero.subtitle": "Specialization is the Key to Success",
 
-"activities.stats.operations": "Completed Operations",
-"activities.stats.kilometers": "Kilometers Covered",
-"activities.stats.team": "Team Members",
-"activities.stats.experience": "Years of Experience",
+    "activities.stats.operations": "Completed Operations",
+    "activities.stats.kilometers": "Kilometers Covered",
+    "activities.stats.team": "Team Members",
+    "activities.stats.experience": "Years of Experience",
 
-"activities.intro.title": "Comprehensive Petroleum Storage and Transport Solutions",
-"activities.intro.text":
-  "Petra Company is a leading provider of petroleum storage and transport solutions, alongside specialized consulting services, within local and regional markets. Our strict commitment to quality and operational efficiency has made us a recognized leader in the petroleum solutions sector.",
+    "activities.intro.title":
+      "Comprehensive Petroleum Storage and Transport Solutions",
+    "activities.intro.text":
+      "Petra Company is a leading provider of petroleum storage and transport solutions, alongside specialized consulting services, within local and regional markets. Our strict commitment to quality and operational efficiency has made us a recognized leader in the petroleum solutions sector.",
 
-"activities.section.expertise.title": "Advanced Operational Expertise",
-"activities.section.expertise.text":
-  "Over the years, we have executed thousands of successful operations for the storage and transport of various petroleum products in highly sensitive operational environments, requiring precision and professionalism in handling hazardous materials. We also provide specialized engineering and technical consulting services.",
+    "activities.section.expertise.title": "Advanced Operational Expertise",
+    "activities.section.expertise.text":
+      "Over the years, we have executed thousands of successful operations for the storage and transport of various petroleum products in highly sensitive operational environments, requiring precision and professionalism in handling hazardous materials. We also provide specialized engineering and technical consulting services.",
 
-"activities.section.expertise.point1":
-  "Storage and transport of crude oil and various petroleum derivatives",
-"activities.section.expertise.point2":
-  "Professional handling of hazardous materials following the highest safety standards",
-"activities.section.expertise.point3":
-  "Providing specialized engineering and technical consulting to ensure optimal performance",
+    "activities.section.expertise.point1":
+      "Storage and transport of crude oil and various petroleum derivatives",
+    "activities.section.expertise.point2":
+      "Professional handling of hazardous materials following the highest safety standards",
+    "activities.section.expertise.point3":
+      "Providing specialized engineering and technical consulting to ensure optimal performance",
 
-"activities.section.fleet.title": "Modern Fleet & Advanced Technology",
-"activities.section.fleet.text":
-  "Our modern fleet includes advanced tankers and smart tracking systems that ensure maximum safety during transport and secure storage. Real-time monitoring allows precise tracking of shipments throughout the journey.",
+    "activities.section.fleet.title": "Modern Fleet & Advanced Technology",
+    "activities.section.fleet.text":
+      "Our modern fleet includes advanced tankers and smart tracking systems that ensure maximum safety during transport and secure storage. Real-time monitoring allows precise tracking of shipments throughout the journey.",
 
-"activities.section.fleet.point1":
-  "Specialized, modern tankers for storage and transport",
-"activities.section.fleet.point2":
-  "Advanced real-time tracking and monitoring systems",
-"activities.section.fleet.point3":
-  "Millions of kilometers traveled safely across diverse terrains",
+    "activities.section.fleet.point1":
+      "Specialized, modern tankers for storage and transport",
+    "activities.section.fleet.point2":
+      "Advanced real-time tracking and monitoring systems",
+    "activities.section.fleet.point3":
+      "Millions of kilometers traveled safely across diverse terrains",
 
-"activities.section.team.title": "Professional Human Capital",
-"activities.section.team.text":
-  "Petra's team is the backbone of our success, consisting of hundreds of drivers, technicians, and consultants working under certified safety systems and continuous training programs to ensure reliable services.",
+    "activities.section.team.title": "Professional Human Capital",
+    "activities.section.team.text":
+      "Petra's team is the backbone of our success, consisting of hundreds of drivers, technicians, and consultants working under certified safety systems and continuous training programs to ensure reliable services.",
 
-"activities.section.team.point1":
-  "Experienced drivers, technicians, and consultants",
-"activities.section.team.point2":
-  "Continuous training programs focused on safety, efficiency, and quality",
-"activities.section.team.point3":
-  "Strict adherence to operational standards and safety procedures",
+    "activities.section.team.point1":
+      "Experienced drivers, technicians, and consultants",
+    "activities.section.team.point2":
+      "Continuous training programs focused on safety, efficiency, and quality",
+    "activities.section.team.point3":
+      "Strict adherence to operational standards and safety procedures",
 
-"activities.capabilities.label": "Our Capabilities",
-"activities.capabilities.title": "Specialized Services",
+    "activities.capabilities.label": "Our Capabilities",
+    "activities.capabilities.title": "Specialized Services",
 
-"activities.capabilities.crudeOil.title": "Crude Oil",
-"activities.capabilities.crudeOil.desc":
-  "Safe storage and transport of crude oil with precise operational standards.",
+    "activities.capabilities.crudeOil.title": "Crude Oil",
+    "activities.capabilities.crudeOil.desc":
+      "Safe storage and transport of crude oil with precise operational standards.",
 
-"activities.capabilities.diesel.title": "Diesel",
-"activities.capabilities.diesel.desc":
-  "Reliable diesel storage and transport services while maintaining product quality.",
+    "activities.capabilities.diesel.title": "Diesel",
+    "activities.capabilities.diesel.desc":
+      "Reliable diesel storage and transport services while maintaining product quality.",
 
-"activities.capabilities.gasoline.title": "Gasoline",
-"activities.capabilities.gasoline.desc":
-  "Storage and transport of gasoline according to global safety standards and smart monitoring systems.",
+    "activities.capabilities.gasoline.title": "Gasoline",
+    "activities.capabilities.gasoline.desc":
+      "Storage and transport of gasoline according to global safety standards and smart monitoring systems.",
 
-"activities.capabilities.lubricants.title": "Industrial Lubricants",
-"activities.capabilities.lubricants.desc":
-  "Professional handling and transport of industrial oils and lubricants, with consulting services available when needed.",
+    "activities.capabilities.lubricants.title": "Industrial Lubricants",
+    "activities.capabilities.lubricants.desc":
+      "Professional handling and transport of industrial oils and lubricants, with consulting services available when needed.",
 
-"activities.capabilities.monitoring.title": "Smart Monitoring",
-"activities.capabilities.monitoring.desc":
-  "Continuous shipment monitoring and storage oversight using smart systems and real-time reporting.",
+    "activities.capabilities.monitoring.title": "Smart Monitoring",
+    "activities.capabilities.monitoring.desc":
+      "Continuous shipment monitoring and storage oversight using smart systems and real-time reporting.",
 
-"activities.capabilities.safety.title": "Safety Commitment",
-"activities.capabilities.safety.desc":
-  "Full compliance with safety protocols to protect personnel, assets, and the environment during storage and transport.",
+    "activities.capabilities.safety.title": "Safety Commitment",
+    "activities.capabilities.safety.desc":
+      "Full compliance with safety protocols to protect personnel, assets, and the environment during storage and transport.",
 
-"activities.cta.title": "Leadership in Storage, Transport, and Consulting Services",
-"activities.cta.text":
-  "At Petra, we believe that safe storage and transport of petroleum products is a major responsibility. We continuously invest in fleet upgrades, workforce development, and technology to ensure top performance and long-term reliability.",
+    "activities.cta.title":
+      "Leadership in Storage, Transport, and Consulting Services",
+    "activities.cta.text":
+      "At Petra, we believe that safe storage and transport of petroleum products is a major responsibility. We continuously invest in fleet upgrades, workforce development, and technology to ensure top performance and long-term reliability.",
 
-"activities.cta.button": "Contact Us",
-"activities.cta.signature": "Petra – Your Trusted Partner in Storage, Transport, and Consulting Services",
-
+    "activities.cta.button": "Contact Us",
+    "activities.cta.signature":
+      "Petra – Your Trusted Partner in Storage, Transport, and Consulting Services",
+    // Contact Us Page
+    "contact.hero.label": "Petra",
+    "contact.hero.title": "Contact Us",
+    "contact.hero.subtitle": "Get in Touch with Petra",
+    "contact.hero.description":
+      "At Petra Company, we believe in building lasting relationships with our clients. Our dedicated team is here to assist you with any inquiries, partnerships, or business opportunities. We look forward to connecting with you.",
+    "common.scrollDown": "Scroll Down",
+    "contact.info.phone": "Phone",
+    "contact.info.phoneValue1": "+963 11 691 55 44",
+    "contact.info.phoneValue2": "+963 11 692 63 62",
+    "contact.info.email": "Email",
+    "contact.info.emailValue1": "info@petra-co.com.sy",
+    "contact.info.emailValue2": "petra-co@outlook.com",
+    "contact.info.mobile": "Mobile",
+    "contact.info.mobileValue": "+963 934 039 444",
+    "contact.info.fax": "Fax",
+    "contact.info.faxValue": "+963 11 692 63 62",
+    "contact.info.address": "Address",
+    "contact.info.addressValue": "Damascus, Syria",
+    "contact.hours.title": "Business Hours",
+    "contact.hours.label": "Working Days",
+    "contact.hours.weekdays": "Sunday - Thursday",
+    "contact.hours.timeLabel": "Hours",
+    "contact.hours.time": "8:00 AM - 5:00 PM",
+    "contact.hours.closed": "Closed on Friday and Saturday",
+    "contact.location.title": "location",
+    "contact.map.viewLarger": "View larger map",
   },
   ar: {
     "nav.home": "الرئيسية",
     "nav.services": "الخدمات",
     "nav.about": "من نحن",
     "nav.faq": "الأسئلة الشائعة",
+    "nav.contact": "تواصل معنا",
     "nav.language": "English",
     "hero.slide1.title": "نقدم التميز في خدمات النفط وحلول الطاقة",
     "hero.slide1.subtitle":
@@ -644,19 +673,19 @@ const translations = {
     "detailed.storage.title": "تخزين المشتقات البترولية",
     "detailed.storage.desc":
       "نوفر حلول تخزين آمنة وفعالة للبنزين والديزل والزيوت والمشتقات البترولية الأخرى. تشمل عملياتنا إدارة وصيانة خزانات التخزين وفقاً للمعايير الدولية.",
-    "detailed.storage.cta": "اعرف المزيد",
+    "detailed.storage.cta":" بنية تخزين احترافية تضمن السلامة والاستدامة",
     "detailed.logistics.title": "إدارة سلسلة التوريد",
     "detailed.logistics.desc":
       "نخطط وننفذ حلول لوجستية متكاملة لنقل وتوزيع المشتقات البترولية. مصممة لتحسين شبكات التوزيع وتقليل التكاليف التشغيلية.",
-    "detailed.logistics.cta": "استكشف اللوجستيات",
+    "detailed.logistics.cta":" إدارة لوجستية ذكية تعزز انسيابية التوزيع",
     "detailed.station.title": "الاستثمار وتشغيل محطات الوقود",
     "detailed.station.desc":
       "دراسات جدوى لإنشاء وتطوير محطات الوقود في مواقع استراتيجية. خدمات تشغيل وإدارة كاملة تركز على الربحية طويلة المدى.",
-    "detailed.station.cta": "شاهد الفرص",
+    "detailed.station.cta":" إدارة متكاملة لمحطات الوقود بنمو مستدام",
     "detailed.consulting.title": "الاستشارات الفنية والهندسية",
     "detailed.consulting.desc":
       "حلول استشارية متخصصة لتطوير البنية التحتية للنفط والغاز. تحليل السوق وتحديد فرص الاستثمار الجديدة.",
-    "detailed.consulting.cta": "احصل على استشارة",
+    "detailed.consulting.cta":" خبرات هندسية تدعم قرارات استثمارية دقيقة",
     "service.dropdown.storage": "تخزين المنتجات البترولية",
     "service.dropdown.logistics": "إدارة سلسلة التوريد",
     "service.dropdown.station": "الاستثمار في محطات الوقود",
@@ -700,21 +729,7 @@ const translations = {
     "projects.project3.tag": "استثمار",
     "projects.project3.title": "محطات وقود خضراء",
     "projects.project3.desc": "شبكة محطات وقود تعمل بالطاقة الشمسية.",
-    "contact.title": "تواصل معنا",
-    "contact.description":
-      "فريقنا جاهز لدعم احتياجاتك. تواصل معنا للاستفسارات التجارية أو مقترحات الخدمات.",
-    "contact.form.name": "الاسم الكامل",
-    "contact.form.email": "البريد الإلكتروني",
-    "contact.form.phone": "رقم الهاتف",
-    "contact.form.message": "رسالتك",
-    "contact.form.submit": "إرسال الرسالة",
-    "contact.form.success": "تم إرسال الرسالة!",
-    "contact.form.successDesc": "سنتواصل معك قريباً.",
-    "contact.info.phone": "الهاتف",
-    "contact.info.email": "البريد الإلكتروني",
-    "contact.info.address": "العنوان",
-    "contact.info.hours": "ساعات العمل",
-    "contact.map.placeholder": "خريطة الموقع",
+    
     "cta.title": "شاركنا لتشكيل مستقبل الطاقة",
     "cta.description": "هل أنت مستعد للارتقاء بعملياتك في مجال الطاقة؟",
     "cta.button1": "اطلب عرض سعر",
@@ -807,13 +822,13 @@ const translations = {
     // About Panel
     "panel.title": "اكتشف بترا",
     "panel.about": "من نحن",
-     "panel.activities": "الأنشطة",
-     "panel.safety": "السلامة",
-     "panel.services": "الخدمات",
+    "panel.activities": "الأنشطة",
+    "panel.safety": "السلامة",
+    "panel.services": "الخدمات",
     "panel.whyPetra": "لماذا بترا",
     "panel.governance": "الحوكمة المؤسسية",
-     "panel.ethics":"الأخلاق والحوكمة",
-     "panel.values":"قيمنا",
+    "panel.ethics": "الأخلاق والحوكمة",
+    "panel.values": "قيمنا",
     "panel.sustainability": "الاستدامة",
     "panel.back": "رجوع",
     // Why Petra Page
@@ -941,10 +956,10 @@ const translations = {
     "safety.page.training.safetyEquipment.desc":
       "الاستخدام الصحيح لمعدات الوقاية الشخصية ومعدات السلامة",
 
-      "safety.page.standards.label": "المعايير",
-  "safety.page.standards.title": "الامتثال والمعايير",
-  "safety.page.standards.subtitle":
-    "نلتزم التزامًا صارمًا باللوائح والمعايير المعتمدة للسلامة",
+    "safety.page.standards.label": "المعايير",
+    "safety.page.standards.title": "الامتثال والمعايير",
+    "safety.page.standards.subtitle":
+      "نلتزم التزامًا صارمًا باللوائح والمعايير المعتمدة للسلامة",
 
     "safety.page.standards.syrianRegulations.title": "الأنظمة المحلية",
     "safety.page.standards.syrianRegulations.desc":
@@ -989,213 +1004,253 @@ const translations = {
     // Services Page
     "services.page.label": "الخدمات",
 
-"services.page.hero.title": "خدماتنا",
-"services.page.hero.subtitle": "ماذا نقدم",
+    "services.page.hero.title": "خدماتنا",
+    "services.page.hero.subtitle": "ماذا نقدم",
 
-"services.page.main.label": "مجالات خبرتنا",
-"services.page.main.title": "حلول متكاملة لقطاع المحروقات",
-"services.page.main.subtitle":
-  "نقدم مجموعة شاملة من الخدمات المصممة لدعم عمليات قطاع النفط من التخزين وحتى التوزيع والاستثمار.",
+    "services.page.main.label": "مجالات خبرتنا",
+    "services.page.main.title": "حلول متكاملة لقطاع المحروقات",
+    "services.page.main.subtitle":
+      "نقدم مجموعة شاملة من الخدمات المصممة لدعم عمليات قطاع النفط من التخزين وحتى التوزيع والاستثمار.",
 
-"services.page.storage.label": "تخزين المحروقات",
-"services.page.storage.title": "حلول تخزين آمنة وفعّالة",
-"services.page.storage.desc":
-  "نوفّر حلول تخزين متقدمة للمحروقات تضمن أعلى مستويات السلامة والكفاءة، مع الالتزام بالمعايير الدولية في تشغيل وإدارة مرافق التخزين.",
+    "services.page.storage.label": "تخزين المحروقات",
+    "services.page.storage.title": "حلول تخزين آمنة وفعّالة",
+    "services.page.storage.desc":
+      "نوفّر حلول تخزين متقدمة للمحروقات تضمن أعلى مستويات السلامة والكفاءة، مع الالتزام بالمعايير الدولية في تشغيل وإدارة مرافق التخزين.",
 
-"services.page.storage.point1":
-  "تخزين البنزين، الديزل، الزيوت، ومنتجات بترولية متنوعة",
-"services.page.storage.point2":
-  "تشغيل وإدارة خزانات التخزين وفق المعايير العالمية للسلامة",
-"services.page.storage.point3":
-  "أنظمة مراقبة المخزون المتقدمة لتقليل الفاقد وزيادة الدقة",
+    "services.page.storage.point1":
+      "تخزين البنزين، الديزل، الزيوت، ومنتجات بترولية متنوعة",
+    "services.page.storage.point2":
+      "تشغيل وإدارة خزانات التخزين وفق المعايير العالمية للسلامة",
+    "services.page.storage.point3":
+      "أنظمة مراقبة المخزون المتقدمة لتقليل الفاقد وزيادة الدقة",
 
-"services.page.learnMore": "اعرف المزيد",
+    "services.page.learnMore": "اعرف المزيد",
 
-"services.page.supplyChain.label": "إدارة سلاسل التوريد",
-"services.page.supplyChain.title": "إدارة لوجستية متكاملة",
-"services.page.supplyChain.desc":
-  "خدمات متكاملة لإدارة سلاسل التوريد تضمن توزيع المحروقات بكفاءة عالية من خلال التخطيط والتنفيذ والتحسين المستمر.",
+    "services.page.supplyChain.label": "إدارة سلاسل التوريد",
+    "services.page.supplyChain.title": "إدارة لوجستية متكاملة",
+    "services.page.supplyChain.desc":
+      "خدمات متكاملة لإدارة سلاسل التوريد تضمن توزيع المحروقات بكفاءة عالية من خلال التخطيط والتنفيذ والتحسين المستمر.",
 
-"services.page.supplyChain.point1":
-  "تخطيط وتنفيذ العمليات اللوجستية لتوزيع المحروقات",
-"services.page.supplyChain.point2":
-  "تحسين شبكات التوزيع لتقليل التكاليف وزيادة الكفاءة",
-"services.page.supplyChain.point3":
-  "إدارة علاقات الموردين والعملاء لضمان استمرارية الإمداد",
+    "services.page.supplyChain.point1":
+      "تخطيط وتنفيذ العمليات اللوجستية لتوزيع المحروقات",
+    "services.page.supplyChain.point2":
+      "تحسين شبكات التوزيع لتقليل التكاليف وزيادة الكفاءة",
+    "services.page.supplyChain.point3":
+      "إدارة علاقات الموردين والعملاء لضمان استمرارية الإمداد",
 
-"services.page.fuelStation.label": "الاستثمار في محطات الوقود",
-"services.page.fuelStation.title": "تطوير وإدارة محطات الوقود",
-"services.page.fuelStation.desc":
-  "نساعد المستثمرين والمشغلين على تطوير وإدارة محطات الوقود وفق أعلى معايير الربحية والاستدامة.",
+    "services.page.fuelStation.label": "الاستثمار في محطات الوقود",
+    "services.page.fuelStation.title": "تطوير وإدارة محطات الوقود",
+    "services.page.fuelStation.desc":
+      "نساعد المستثمرين والمشغلين على تطوير وإدارة محطات الوقود وفق أعلى معايير الربحية والاستدامة.",
 
-"services.page.fuelStation.point1":
-  "إعداد دراسات جدوى شاملة لمحطات الوقود الجديدة والقائمة",
-"services.page.fuelStation.point2":
-  "تشغيل وإدارة المحطات وفق معايير عالية للكفاءة والربحية",
-"services.page.fuelStation.point3":
-  "تطوير حلول الطاقة البديلة مثل أنظمة الطاقة الشمسية",
+    "services.page.fuelStation.point1":
+      "إعداد دراسات جدوى شاملة لمحطات الوقود الجديدة والقائمة",
+    "services.page.fuelStation.point2":
+      "تشغيل وإدارة المحطات وفق معايير عالية للكفاءة والربحية",
+    "services.page.fuelStation.point3":
+      "تطوير حلول الطاقة البديلة مثل أنظمة الطاقة الشمسية",
 
-"services.page.consulting.label": "الخدمات الفنية والاستشارية",
-"services.page.consulting.title": "استشارات هندسية متخصصة",
-"services.page.consulting.desc":
-  "نقدم خدمات فنية واستشارية متقدمة لدعم مشاريع النفط والغاز وتمكين العملاء من اتخاذ قرارات استثمارية مدروسة.",
+    "services.page.consulting.label": "الخدمات الفنية والاستشارية",
+    "services.page.consulting.title": "استشارات هندسية متخصصة",
+    "services.page.consulting.desc":
+      "نقدم خدمات فنية واستشارية متقدمة لدعم مشاريع النفط والغاز وتمكين العملاء من اتخاذ قرارات استثمارية مدروسة.",
 
-"services.page.consulting.point1":
-  "استشارات هندسية وفنية لمشاريع النفط والغاز",
-"services.page.consulting.point2":
-  "تحليل الأسواق ودراسة فرص الاستثمار",
-"services.page.consulting.point3":
-  "تدريب الكوادر على أفضل الممارسات التشغيلية",
+    "services.page.consulting.point1":
+      "استشارات هندسية وفنية لمشاريع النفط والغاز",
+    "services.page.consulting.point2": "تحليل الأسواق ودراسة فرص الاستثمار",
+    "services.page.consulting.point3":
+      "تدريب الكوادر على أفضل الممارسات التشغيلية",
 
-"services.page.additional.label": "خدمات إضافية",
-"services.page.additional.title": "خدمات داعمة تعزز الأداء",
+    "services.page.additional.label": "خدمات إضافية",
+    "services.page.additional.title": "خدمات داعمة تعزز الأداء",
 
-"services.page.additional.fleetManagement.title": "حلول إدارة الأسطول",
-"services.page.additional.fleetManagement.desc":
-  "أنظمة متطورة لإدارة ومراقبة أساطيل النقل، تضمن السلامة التشغيلية وتحسين الأداء وخفض التكاليف.",
+    "services.page.additional.fleetManagement.title": "حلول إدارة الأسطول",
+    "services.page.additional.fleetManagement.desc":
+      "أنظمة متطورة لإدارة ومراقبة أساطيل النقل، تضمن السلامة التشغيلية وتحسين الأداء وخفض التكاليف.",
 
-"services.page.additional.roadSupport.title": "خدمات الدعم على الطريق",
-"services.page.additional.roadSupport.desc":
-  "خدمات دعم فني وتشغيلي على مدار الساعة لضمان استمرارية النقل.",
+    "services.page.additional.roadSupport.title": "خدمات الدعم على الطريق",
+    "services.page.additional.roadSupport.desc":
+      "خدمات دعم فني وتشغيلي على مدار الساعة لضمان استمرارية النقل.",
 
-"services.page.additional.longDistance.title": "النقل لمسافات طويلة",
-"services.page.additional.longDistance.desc":
-  "خدمات نقل موثوقة للمحروقات لمسافات طويلة باستخدام أساطيل حديثة وتقنيات تتبع آنية.",
+    "services.page.additional.longDistance.title": "النقل لمسافات طويلة",
+    "services.page.additional.longDistance.desc":
+      "خدمات نقل موثوقة للمحروقات لمسافات طويلة باستخدام أساطيل حديثة وتقنيات تتبع آنية.",
 
-"services.page.whyUs.label": "لماذا نحن",
-"services.page.whyUs.title": "شريك موثوق في خدمات المحروقات",
+    "services.page.whyUs.label": "لماذا نحن",
+    "services.page.whyUs.title": "شريك موثوق في خدمات المحروقات",
 
-"services.page.whyUs.expertise.title": "خبرة متخصصة",
-"services.page.whyUs.expertise.desc":
-  "خبرات متراكمة في تخزين المحروقات والخدمات اللوجستية.",
+    "services.page.whyUs.expertise.title": "خبرة متخصصة",
+    "services.page.whyUs.expertise.desc":
+      "خبرات متراكمة في تخزين المحروقات والخدمات اللوجستية.",
 
-"services.page.whyUs.reliability.title": "موثوقية التشغيل",
-"services.page.whyUs.reliability.desc":
-  "عمليات مستقرة وآمنة ومتوافقة مع المعايير المعتمدة.",
+    "services.page.whyUs.reliability.title": "موثوقية التشغيل",
+    "services.page.whyUs.reliability.desc":
+      "عمليات مستقرة وآمنة ومتوافقة مع المعايير المعتمدة.",
 
-"services.page.whyUs.support.title": "دعم متواصل",
-"services.page.whyUs.support.desc":
-  "فرق دعم متخصصة لمساندتكم في جميع مراحل العمل.",
+    "services.page.whyUs.support.title": "دعم متواصل",
+    "services.page.whyUs.support.desc":
+      "فرق دعم متخصصة لمساندتكم في جميع مراحل العمل.",
 
-"services.page.whyUs.speed.title": "سرعة التنفيذ",
-"services.page.whyUs.speed.desc":
-  "إجراءات فعالة تضمن إنجاز الأعمال في الوقت المحدد.",
+    "services.page.whyUs.speed.title": "سرعة التنفيذ",
+    "services.page.whyUs.speed.desc":
+      "إجراءات فعالة تضمن إنجاز الأعمال في الوقت المحدد.",
 
-"services.page.whyUs.team.title": "فريق محترف",
-"services.page.whyUs.team.desc":
-  "مهندسون وخبراء مؤهلون يتمتعون بكفاءة عالية.",
+    "services.page.whyUs.team.title": "فريق محترف",
+    "services.page.whyUs.team.desc":
+      "مهندسون وخبراء مؤهلون يتمتعون بكفاءة عالية.",
 
-"services.page.whyUs.innovation.title": "الابتكار والتطوير",
-"services.page.whyUs.innovation.desc":
-  "اعتماد أحدث التقنيات وحلول الطاقة المستدامة.",
+    "services.page.whyUs.innovation.title": "الابتكار والتطوير",
+    "services.page.whyUs.innovation.desc":
+      "اعتماد أحدث التقنيات وحلول الطاقة المستدامة.",
 
-"services.page.cta.title": "جاهزون لدعم أعمالكم؟",
-"services.page.cta.text":
-  "تواصل معنا اليوم لاكتشاف كيف يمكن لخدماتنا دعم نمو أعمالكم وتحقيق التميز التشغيلي.",
-"services.page.cta.button": "تواصل معنا",
+    "services.page.cta.title": "جاهزون لدعم أعمالكم؟",
+    "services.page.cta.text":
+      "تواصل معنا اليوم لاكتشاف كيف يمكن لخدماتنا دعم نمو أعمالكم وتحقيق التميز التشغيلي.",
+    "services.page.cta.button": "تواصل معنا",
 
-// Activities Page
-"activities.label": "الأنشطة",
+    // Activities Page
+    "activities.label": "الأنشطة",
 
-"activities.hero.title": "أنشطتنا",
-"activities.hero.subtitle": "التخصص هو مفتاح النجاح",
+    "activities.hero.title": "أنشطتنا",
+    "activities.hero.subtitle": "التخصص هو مفتاح النجاح",
 
-"activities.stats.operations": "عمليات منجزة",
-"activities.stats.kilometers": "كيلومترات مقطوعة",
-"activities.stats.team": "أعضاء الفريق",
-"activities.stats.experience": "سنوات الخبرة",
+    "activities.stats.operations": "عمليات منجزة",
+    "activities.stats.kilometers": "كيلومترات مقطوعة",
+    "activities.stats.team": "أعضاء الفريق",
+    "activities.stats.experience": "سنوات الخبرة",
 
-"activities.intro.title": "حلول متكاملة للتخزين والنقل البترولي",
-"activities.intro.text":
-  "شركة بيترا رائدة في تقديم حلول التخزين والنقل للمشتقات النفطية، بالإضافة إلى الخدمات الاستشارية المتخصصة، داخل الأسواق المحلية والإقليمية. وبفضل التزامنا الصارم بالجودة والكفاءة التشغيلية، أصبحنا أحد الشركات الرائدة في قطاع حلول الطاقة البترولية.",
+    "activities.intro.title": "حلول متكاملة للتخزين والنقل البترولي",
+    "activities.intro.text":
+      "شركة بيترا رائدة في تقديم حلول التخزين والنقل للمشتقات النفطية، بالإضافة إلى الخدمات الاستشارية المتخصصة، داخل الأسواق المحلية والإقليمية. وبفضل التزامنا الصارم بالجودة والكفاءة التشغيلية، أصبحنا أحد الشركات الرائدة في قطاع حلول الطاقة البترولية.",
 
-"activities.section.expertise.title": "خبرة تشغيلية متقدمة",
-"activities.section.expertise.text":
-  "على مدار السنوات الماضية، نفذنا آلاف العمليات الناجحة لتخزين ونقل مشتقات نفطية متعددة ضمن بيئات تشغيلية عالية الحساسية تتطلب دقة واحترافية في التعامل مع المواد الخطرة، بالإضافة لتقديم استشارات هندسية وتقنية متخصصة.",
+    "activities.section.expertise.title": "خبرة تشغيلية متقدمة",
+    "activities.section.expertise.text":
+      "على مدار السنوات الماضية، نفذنا آلاف العمليات الناجحة لتخزين ونقل مشتقات نفطية متعددة ضمن بيئات تشغيلية عالية الحساسية تتطلب دقة واحترافية في التعامل مع المواد الخطرة، بالإضافة لتقديم استشارات هندسية وتقنية متخصصة.",
 
-"activities.section.expertise.point1":
-  "تخزين ونقل النفط الخام ومشتقاته البترولية المختلفة",
-"activities.section.expertise.point2":
-  "التعامل الاحترافي مع المواد الخطرة وفق أعلى معايير السلامة",
-"activities.section.expertise.point3":
-  "تقديم استشارات هندسية وتقنية متخصصة لضمان أفضل أداء",
+    "activities.section.expertise.point1":
+      "تخزين ونقل النفط الخام ومشتقاته البترولية المختلفة",
+    "activities.section.expertise.point2":
+      "التعامل الاحترافي مع المواد الخطرة وفق أعلى معايير السلامة",
+    "activities.section.expertise.point3":
+      "تقديم استشارات هندسية وتقنية متخصصة لضمان أفضل أداء",
 
-"activities.section.fleet.title": "أسطول حديث وتقنيات متطورة",
-"activities.section.fleet.text":
-  "يمتلك أسطولنا الحديث صهاريج نقل متطورة وأنظمة تتبع ذكية تضمن أعلى مستويات الأمان أثناء النقل، وتدعم عمليات التخزين الآمن، كما تتيح مراقبة مستمرة لمسارات الشحنات.",
+    "activities.section.fleet.title": "أسطول حديث وتقنيات متطورة",
+    "activities.section.fleet.text":
+      "يمتلك أسطولنا الحديث صهاريج نقل متطورة وأنظمة تتبع ذكية تضمن أعلى مستويات الأمان أثناء النقل، وتدعم عمليات التخزين الآمن، كما تتيح مراقبة مستمرة لمسارات الشحنات.",
 
-"activities.section.fleet.point1":
-  "صهاريج وقود حديثة ومتخصصة للتخزين والنقل",
-"activities.section.fleet.point2":
-  "أنظمة تتبع ومراقبة لحظية باستخدام تقنيات متقدمة",
-"activities.section.fleet.point3":
-  "قطع ملايين الكيلومترات عبر طرق وتضاريس متنوعة بأمان",
+    "activities.section.fleet.point1":
+      "صهاريج وقود حديثة ومتخصصة للتخزين والنقل",
+    "activities.section.fleet.point2":
+      "أنظمة تتبع ومراقبة لحظية باستخدام تقنيات متقدمة",
+    "activities.section.fleet.point3":
+      "قطع ملايين الكيلومترات عبر طرق وتضاريس متنوعة بأمان",
 
-"activities.section.team.title": "كوادر بشرية محترفة",
-"activities.section.team.text":
-  "يشكّل فريق بيترا حجر الأساس في نجاح أعمالنا، حيث يضم مئات السائقين والفنيين والمستشارين الإداريين المؤهلين للعمل وفق أنظمة سلامة معتمدة وبرامج تدريب مستمرة لضمان موثوقية الخدمات.",
+    "activities.section.team.title": "كوادر بشرية محترفة",
+    "activities.section.team.text":
+      "يشكّل فريق بيترا حجر الأساس في نجاح أعمالنا، حيث يضم مئات السائقين والفنيين والمستشارين الإداريين المؤهلين للعمل وفق أنظمة سلامة معتمدة وبرامج تدريب مستمرة لضمان موثوقية الخدمات.",
 
-"activities.section.team.point1":
-  "مئات السائقين والفنيين والاستشاريين ذوي الخبرة",
-"activities.section.team.point2":
-  "برامج تدريب مستمرة تركز على السلامة والكفاءة والجودة",
-"activities.section.team.point3":
-  "الالتزام الصارم بالمعايير التشغيلية وأنظمة السلامة",
+    "activities.section.team.point1":
+      "مئات السائقين والفنيين والاستشاريين ذوي الخبرة",
+    "activities.section.team.point2":
+      "برامج تدريب مستمرة تركز على السلامة والكفاءة والجودة",
+    "activities.section.team.point3":
+      "الالتزام الصارم بالمعايير التشغيلية وأنظمة السلامة",
 
-"activities.capabilities.label": "قدراتنا",
-"activities.capabilities.title": "خدماتنا المتخصصة",
+    "activities.capabilities.label": "قدراتنا",
+    "activities.capabilities.title": "خدماتنا المتخصصة",
 
-"activities.capabilities.crudeOil.title": "النفط الخام",
-"activities.capabilities.crudeOil.desc":
-  "تخزين ونقل النفط الخام بأعلى مستويات الأمان ودقة التشغيل.",
+    "activities.capabilities.crudeOil.title": "النفط الخام",
+    "activities.capabilities.crudeOil.desc":
+      "تخزين ونقل النفط الخام بأعلى مستويات الأمان ودقة التشغيل.",
 
-"activities.capabilities.diesel.title": "الديزل",
-"activities.capabilities.diesel.desc":
-  "خدمات نقل وتخزين موثوقة لمادة الديزل مع الحفاظ على الجودة.",
+    "activities.capabilities.diesel.title": "الديزل",
+    "activities.capabilities.diesel.desc":
+      "خدمات نقل وتخزين موثوقة لمادة الديزل مع الحفاظ على الجودة.",
 
-"activities.capabilities.gasoline.title": "البنزين",
-"activities.capabilities.gasoline.desc":
-  "تخزين ونقل البنزين وفق معايير السلامة العالمية وأنظمة المراقبة الذكية.",
+    "activities.capabilities.gasoline.title": "البنزين",
+    "activities.capabilities.gasoline.desc":
+      "تخزين ونقل البنزين وفق معايير السلامة العالمية وأنظمة المراقبة الذكية.",
 
-"activities.capabilities.lubricants.title": "الزيوت الصناعية",
-"activities.capabilities.lubricants.desc":
-  "التعامل والنقل الاحترافي للزيوت والشحوم الصناعية لمختلف الاستخدامات، مع خدمات استشارية عند الحاجة.",
+    "activities.capabilities.lubricants.title": "الزيوت الصناعية",
+    "activities.capabilities.lubricants.desc":
+      "التعامل والنقل الاحترافي للزيوت والشحوم الصناعية لمختلف الاستخدامات، مع خدمات استشارية عند الحاجة.",
 
-"activities.capabilities.monitoring.title": "المراقبة الذكية",
-"activities.capabilities.monitoring.desc":
-  "متابعة مستمرة للشحنات ومراقبة عمليات التخزين عبر أنظمة ذكية وتقارير لحظية.",
+    "activities.capabilities.monitoring.title": "المراقبة الذكية",
+    "activities.capabilities.monitoring.desc":
+      "متابعة مستمرة للشحنات ومراقبة عمليات التخزين عبر أنظمة ذكية وتقارير لحظية.",
 
-"activities.capabilities.safety.title": "الالتزام بالسلامة",
-"activities.capabilities.safety.desc":
-  "التقيد الكامل بتعليمات السلامة لحماية الأفراد والممتلكات والبيئة خلال التخزين والنقل.",
+    "activities.capabilities.safety.title": "الالتزام بالسلامة",
+    "activities.capabilities.safety.desc":
+      "التقيد الكامل بتعليمات السلامة لحماية الأفراد والممتلكات والبيئة خلال التخزين والنقل.",
 
-"activities.cta.title": "الريادة في التخزين والنقل والخدمات الاستشارية",
-"activities.cta.text":
-  "في بيترا، نؤمن بأن تقديم حلول تخزين ونقل آمنة للمشتقات النفطية هو مسؤولية كبيرة، لذلك نواصل الاستثمار في تطوير الأسطول، تأهيل الكوادر، واعتماد أحدث التقنيات لضمان أفضل أداء وموثوقية على المدى الطويل.",
+    "activities.cta.title": "الريادة في التخزين والنقل والخدمات الاستشارية",
+    "activities.cta.text":
+      "في بيترا، نؤمن بأن تقديم حلول تخزين ونقل آمنة للمشتقات النفطية هو مسؤولية كبيرة، لذلك نواصل الاستثمار في تطوير الأسطول، تأهيل الكوادر، واعتماد أحدث التقنيات لضمان أفضل أداء وموثوقية على المدى الطويل.",
 
-"activities.cta.button": "تواصل معنا",
-"activities.cta.signature": "بيترا – شريككم الموثوق في حلول التخزين والنقل والخدمات الاستشارية",
+    "activities.cta.button": "تواصل معنا",
+    "activities.cta.signature":
+      "بيترا – شريككم الموثوق في حلول التخزين والنقل والخدمات الاستشارية",
+          // Contact Us Page
+ "contact.hero.label": "بيترا",
+  "contact.hero.title": "تواصل معنا",
+  "contact.hero.subtitle": "تواصل مع شركة بيترا",
+  "contact.hero.description": "في شركة بيترا، نؤمن ببناء علاقات طويلة الأمد مع عملائنا. فريقنا المتخصص جاهز لمساعدتك في أي استفسارات أو شراكات أو فرص عمل. نتطلع دائمًا للتواصل معك.",
+  
+  "common.scrollDown": "تصفح لأسفل",
 
+  "contact.info.phone": "الهاتف",
+  "contact.info.phoneValue1": "+963 11 691 55 44",
+  "contact.info.phoneValue2": "+963 11 692 63 62",
+
+  "contact.info.email": "البريد الإلكتروني",
+  "contact.info.emailValue1": "info@petra-co.com.sy",
+  "contact.info.emailValue2": "petra-co@outlook.com",
+
+  "contact.info.mobile": "الجوال",
+  "contact.info.mobileValue": "+963 934 039 444",
+
+  "contact.info.fax": "الفاكس",
+  "contact.info.faxValue": "+963 11 692 63 62",
+
+  "contact.info.address": "العنوان",
+  "contact.info.addressValue": "دمشق، سوريا",
+
+  "contact.hours.title": "ساعات العمل",
+  "contact.hours.label": "أيام الدوام",
+  "contact.hours.weekdays": "من الأحد إلى الخميس",
+  "contact.hours.timeLabel": "ساعات الدوام",
+  "contact.hours.time": "8:00 صباحًا - 5:00 مساءً",
+  "contact.hours.closed": "مغلق يومي الجمعة والسبت",
+
+  "contact.location.title": "الموقع",
+  "contact.map.viewLarger": "عرض الخريطة بحجم أكبر"
   },
 };
-
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem("petra-language");
-    return saved === "ar" || saved === "en" ? saved : "en";
-  });
+  const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const langParam = params.lang as Language | undefined;
+  const language: Language = langParam === "ar" || langParam === "en" ? langParam : "ar";
 
   useEffect(() => {
-    localStorage.setItem("petra-language", language);
     document.documentElement.lang = language;
     document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
   }, [language]);
 
-  const setLanguage = (lang: Language) => setLanguageState(lang);
+  const setLanguage = (newLang: Language) => {
+    if (newLang === language) return;
+    navigate(location.pathname.replace(`/${language}`, `/${newLang}`), {
+      replace: true,
+    });
+  };
+
   const t = (key: string): string =>
-    translations[language][key as keyof (typeof translations)["en"]] || key;
+    translations[language][key as keyof typeof translations["en"]] || key;
+
   const dir = language === "ar" ? "rtl" : "ltr";
 
   return (
@@ -1207,7 +1262,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (context === undefined)
-    throw new Error("useLanguage must be used within a LanguageProvider");
+  if (!context) {
+    throw new Error("useLanguage must be used within LanguageProvider");
+  }
   return context;
 };

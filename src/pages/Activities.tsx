@@ -7,6 +7,7 @@ import {
   Truck, Users, MapPin, Gauge, Shield, Target, 
   Fuel, Route, Clock, Award, CheckCircle2, Zap
 } from "lucide-react";
+import { useLangLink } from "@/hooks/useLangLink";
 
 // Image imports
 import activitiesHero from "@/assets/activities-hero.jpg";
@@ -169,61 +170,7 @@ const HeroSection = ({ t, language }: { t: (key: string) => string; language: st
   );
 };
 
-// Stats Counter
-const StatsSection = ({ t, language }: { t: (key: string) => string; language: string }) => {
-  const stats = [
-    { key: 'operations', value: '5000+', icon: Truck },
-    { key: 'kilometers', value: '10M+', icon: Route },
-    { key: 'team', value: '200+', icon: Users },
-    { key: 'experience', value: '10+', icon: Award },
-  ];
 
-  return (
-    <section className="py-16 bg-petroleum-green relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
-
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <motion.div
-                key={stat.key}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-16 h-16 mx-auto mb-4 bg-royal-gold/20 rounded-2xl flex items-center justify-center"
-                >
-                  <Icon className="w-8 h-8 text-royal-gold" />
-                </motion.div>
-                <motion.h3 
-                  className="text-3xl md:text-4xl font-bold text-white mb-2"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 + 0.3, type: "spring" }}
-                >
-                  {stat.value}
-                </motion.h3>
-                <p className="text-white/70 text-sm">{t(`activities.stats.${stat.key}`)}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // Main Content Section
 const ContentSection = ({ t, language }: { t: (key: string) => string; language: string }) => {
@@ -436,44 +383,53 @@ const CapabilitiesSection = ({ t, language }: { t: (key: string) => string; lang
 };
 
 // CTA Section
-const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => (
-  <section className="py-24 bg-gradient-to-b from-ash-gray/30 to-white">
-    <div className="container mx-auto px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="max-w-3xl mx-auto text-center"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-petroleum-green mb-6">
-          {t('activities.cta.title')}
-        </h2>
-        <p className="text-muted-foreground text-lg mb-8">
-          {t('activities.cta.text')}
-        </p>
-        
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-block px-8 py-4 bg-petroleum-green text-white font-semibold rounded-xl hover:bg-petroleum-green/90 transition-colors shadow-lg shadow-petroleum-green/30"
-        >
-          {t('activities.cta.button')}
-        </motion.a>
-        
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+
+const CTASection = ({ t, language }: { t: (key: string) => string; language: string }) => {
+  const { dir } = useLanguage();
+  const langLink = useLangLink();
+
+  return (
+    <section className="py-24 bg-gradient-to-b from-ash-gray/30 to-white">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 text-royal-gold font-medium"
+          className="max-w-3xl mx-auto text-center"
         >
-          {t('activities.cta.signature')}
-        </motion.p>
-      </motion.div>
-    </div>
-  </section>
-);
+          <h2 className="text-3xl md:text-4xl font-bold text-petroleum-green mb-6">
+            {t('activities.cta.title')}
+          </h2>
+          <p className="text-muted-foreground text-lg mb-8">
+            {t('activities.cta.text')}
+          </p>
+          
+          <motion.a
+            href={langLink("/contact")} // استخدم langLink للزر
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block px-8 py-4 bg-petroleum-green text-white font-semibold rounded-xl hover:bg-petroleum-green/90 transition-colors shadow-lg shadow-petroleum-green/30"
+          >
+            {t('activities.cta.button')}
+          </motion.a>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="mt-8 text-royal-gold font-medium"
+          >
+            {t('activities.cta.signature')}
+          </motion.p>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+
+
 
 const Activities = () => {
   const { t, language, dir } = useLanguage();
@@ -482,7 +438,6 @@ const Activities = () => {
     <div className="min-h-screen" dir={dir}>
       <Navigation />
       <HeroSection t={t} language={language} />
-      <StatsSection t={t} language={language} />
       <ContentSection t={t} language={language} />
       <CapabilitiesSection t={t} language={language} />
       <CTASection t={t} language={language} />

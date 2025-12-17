@@ -8,6 +8,7 @@ import { useState } from "react";
 import governanceHero from "@/assets/governance-hero.jpg";
 import ethicsHero from "@/assets/ethics-hero.jpg";
 import valuesHero from "@/assets/values-hero.jpg";
+import { useLangLink } from "@/hooks/useLangLink";
 
 // Lazy loading image component
 const LazyImage = ({ 
@@ -69,6 +70,8 @@ const FloatingParticles = () => (
 const Governance = () => {
   const { language, dir } = useLanguage();
   const navigate = useNavigate();
+    const langLink = useLangLink();
+
   const isArabic = language === 'ar';
 
   const introText = isArabic ? `يحدد إطار الحوكمة الشامل والواسع للشركة هويتنا وكيف ينظر إلينا العالم الخارجي. إنه بمثابة البوصلة التي توجه عمليات الشركة وتضمن التزامنا بأعلى المعايير المهنية والأخلاقية.
@@ -84,7 +87,7 @@ A robust governance structure ensures transparency, effective oversight, and acc
       titleKey: isArabic ? 'الأخلاق والحوكمة' : 'Ethics & Governance',
       descKey: isArabic ? 'تلتزم الشركة بأعلى معايير الأعمال من خلال الالتزام بأعلى المبادئ الشخصية والمهنية.' : 'The company is committed to the highest business standards by adhering to the highest personal and professional principles.',
       buttonKey: isArabic ? 'اقرأ المزيد' : 'Read More',
-      path: '/ethics-governance',
+      path: langLink("/ethics-governance"),
       gradient: 'from-petroleum-green to-petroleum-green/80',
       image: ethicsHero,
     },
@@ -93,7 +96,7 @@ A robust governance structure ensures transparency, effective oversight, and acc
       titleKey: isArabic ? 'قيمنا' : 'Our Values',
       descKey: isArabic ? 'سلوك إمداد — كشركة وكموظفين وكمواطنين — هو ما يميزها.' : 'The conduct of Imdad — as a company, as employees, and as citizens — is what sets it apart.',
       buttonKey: isArabic ? 'اقرأ المزيد' : 'Read More',
-      path: '/our-values',
+      path: langLink("/our-values"),
       gradient: 'from-royal-gold to-royal-gold/80',
       image: valuesHero,
     },
